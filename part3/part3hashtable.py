@@ -4,28 +4,57 @@ with open('letter1.txt', 'r', encoding='utf-8') as file1, open('letter2.txt', 'r
     letter1 = file1.read()
     letter2 = file2.read()
 
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.table = [[] for _ in range(size)]
 
-def find_unique_words(letter1, letter2):
-    words_table1 = {}
-    words_table2 = {}
+    def _hash_function(self, key):
+        return hash(key) % self.size
 
-    # Update words_table1 with words from letter1
-    for word in letter1.split():
-        words_table1[word] = True
+    def insert(self, key):
+        index = self._hash_function(key)
+        self.table[index].append(key)
 
-    # Update words_table2 with words from letter2
-    for word in letter2.split():
-        words_table2[word] = True
+    def search(self, key):
+        index = self._hash_function(key)
+        for item in self.table[index]:
+            if item == key:
+                return True
+        return False
 
-    # Find unique words in letter1
-    unique_words_letter1 = [word for word in words_table1 if word not in words_table2]
 
-    # Find unique words in letter2
-    unique_words_letter2 = [word for word in words_table2 if word not in words_table1]
+def build_hash_table(text):
+    hash_table = HashTable(10000)  # Choose an appropriate size for your hash table
 
-    return unique_words_letter1, unique_words_letter2
+    words = text.split()
+    for word in words:
+        hash_table.insert(word)
 
-unique_words1, unique_words2 = find_unique_words(letter1, letter2)
+    return hash_table
+
+
+def compare_text_files(text1, text2):
+    hash_table1 = build_hash_table(text1)
+    hash_table2 = build_hash_table(text2)
+
+    unique_words1 = []
+    unique_words2 = []
+
+    words1 = text1.split()
+    for word in words1:
+        if not hash_table2.search(word):
+            unique_words1.append(word)
+
+    words2 = text2.split()
+    for word in words2:
+        if not hash_table1.search(word):
+            unique_words2.append(word)
+
+    return unique_words1, unique_words2
+
+unique_words1, unique_words2 = compare_text_files(letter1, letter2)
 
 print("Unique words in letter 1:", unique_words1)
 print("Unique words in letter 2:", unique_words2)
+
