@@ -1,5 +1,5 @@
 # Read letters from text files
-#running time complexity = O(n1 + n2) where n1 is the amount of words in letter1 and n2 is the amount of words in letter2
+#running time complexity = O(n + m + k)
 with open('letter1.txt', 'r', encoding='utf-8') as file1, open('letter2.txt', 'r', encoding='utf-8') as file2:
     letter1 = file1.read()
     letter2 = file2.read()
