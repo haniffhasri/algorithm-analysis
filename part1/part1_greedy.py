@@ -1,4 +1,4 @@
-# This is a linear search algorithm.
+# This is a greedy search algorithm.
 
 # inside plan
 # n=null
@@ -33,21 +33,32 @@ firstF = [["s", "r1", "n", "v", "v", "v", "n", "r3", "r3", "b"],
           ["u", "mb", "mb", "mb", "mb", "mb", "mb", "r2", "r2", "b"],
           ["b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "end"]]
 
-target_value="end"
+target_value = "end"
 
-def linear_search_2d(arr, target):
+def greedy_search_2d(arr, target):
     for row in arr:
         for element in row:
             if element == target:
                 return True
     return False
 
-if linear_search_2d(groundF, target_value):
-    print("All the rooms on the ground floor have been checked.")
+# Define the order of room priority based on proximity to the starting point
+room_priority = ["s", "l", "c", "k", "d", "m", "e", "n", "u", "b", "r1", "r2", "r3", "mb"]
+
+def greedy_search_2d_with_priority(arr, target, priority):
+    for room in priority:
+        for row in arr:
+            for element in row:
+                if element == room:
+                    return True
+    return False
+
+if greedy_search_2d_with_priority(groundF, target_value, room_priority):
+    print("All the rooms in ground floor have been checked.")
 else:
     print("Not everything has been checked.")
 
-if linear_search_2d(firstF, target_value):
-    print("All the rooms on the first floor have been checked.")
+if greedy_search_2d_with_priority(firstF, target_value, room_priority):
+    print("All the rooms in first floor have been checked.")
 else:
     print("Not everything has been checked.")
