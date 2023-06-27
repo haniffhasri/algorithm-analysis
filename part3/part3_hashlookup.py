@@ -1,47 +1,31 @@
-# Read letters from text files
-with open('letter1.txt', 'r', encoding='utf-8') as file1, open('letter2.txt', 'r', encoding='utf-8') as file2:
-    letter1 = file1.read()
-    letter2 = file2.read()
+# Define the family members and their characteristic scores
+family_members = {
+'Jones Marshall': {'rudeness': 10, 'money_motive': 0.1, 'playfulness': 0, 'ability': 7},
+'Jenna Marshall': {'rudeness': 2, 'money_motive': 0.7, 'playfulness': 3,'ability': 5},
+'Peter Marshall': {'rudeness': 4, 'money_motive': 5, 'playfulness': 7,'ability': 5},
+'Penelope Marshall': {'rudeness': 1, 'money_motive': 0.5, 'playfulness': 9,'ability': 2},
+'Will Marshall': {'rudeness': 0, 'money_motive': 10, 'playfulness': 0,'ability': 10}
+}
 
-# Split letters into sentences
-sentences1 = letter1.split('.')
-sentences2 = letter2.split('.')
 
-# Remove empty sentences
-sentences1 = [sentence.strip() for sentence in sentences1 if sentence.strip()]
-sentences2 = [sentence.strip() for sentence in sentences2 if sentence.strip()]
+# Define the weights for each characteristic
+weights = {
+    'rudeness': 0.7,
+    'money_motive': 0.9,
+    'playfulness': 0.5,
+    'ability': 0.5,
+}
 
-# Store sentences with different words
-different_sentences = []
 
-# Compare sentences and find different words
-for i in range(min(len(sentences1), len(sentences2))):
-    sentence1 = sentences1[i]
-    sentence2 = sentences2[i]
+# Calculate the weighted scores for each family member
+weighted_scores = {member: sum(scores[characteristic] * weight for characteristic, weight in weights.items())
+                   for member, scores in family_members.items()}
 
-    # Build hash lookup tables for words in each sentence
-    lookup_table1 = {word: True for word in sentence1.split()}
-    lookup_table2 = {word: True for word in sentence2.split()}
 
-    # Find different words in the sentences
-    different_words = []
+# Find the family member with the highest weighted score
+suspect_motive = max(weighted_scores, key=weighted_scores.get)
 
-    for word in lookup_table1:
-        if word not in lookup_table2:
-            different_words.append(word)
 
-    for word in lookup_table2:
-        if word not in lookup_table1:
-            different_words.append(word)
-
-    # Check if there are different words in the sentence
-    if different_words:
-        different_sentences.append((sentence1, sentence2, different_words))
-
-# Print different words for each sentence
-for i, (sentence1, sentence2, different_words) in enumerate(different_sentences, start=1):
-    print("Sentence {}:".format(i))
-    print("Letter 1: {}".format(sentence1))
-    print("Letter 2: {}".format(sentence2))
-    print("Different words: {}".format(', '.join(different_words)))
-    print()
+# Print the results
+for member, weighted_score in weighted_scores.items():
+    print(f"{member}: {weighted_score}")

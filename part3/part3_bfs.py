@@ -53,7 +53,7 @@ def bfs_find_different_words(sentence1, sentence2):
     return different_words
 
 # Read letters from text files
-with open('C:/Users/hp/Documents/GitHub/algorithm-analysis/part3/letter1.txt', 'r', encoding='utf-8') as file1, open('C:/Users/hp/Documents/GitHub/algorithm-analysis/part3/letter2.txt', 'r', encoding='utf-8') as file2:
+with open('letter1.txt', 'r', encoding='utf-8') as file1, open('letter2.txt', 'r', encoding='utf-8') as file2:
     letter1 = file1.read()
     letter2 = file2.read()
 
